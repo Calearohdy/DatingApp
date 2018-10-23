@@ -7,7 +7,7 @@ import { Routes } from '@angular/router';
 
 export const appRoutes: Routes  = [
   {
-    path: 'home',
+    path: '',
     component: HomeComponent
   },
   {
@@ -31,7 +31,7 @@ export const appRoutes: Routes  = [
   },
   { // order is important, this must be last
     path: '**',
-    redirectTo: 'home',
+    redirectTo: '',
     pathMatch: 'full'
   }
 ];

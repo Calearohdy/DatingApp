@@ -14,8 +14,8 @@
                     <a class="nav-link" [routerLink]="['/messages']">Messages</a>
                 </li>
             </ul>
-
-            <div *ngIf="loggedIn()" class="dropdown" dropdown>
+        </div>
+            <div *ngIf="loggedIn()" class="dropdown m-2" dropdown>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" dropdownToggle>
             Welcome {{authService.decodedToken?.unique_name | titlecase}}
           </button>
@@ -31,7 +31,6 @@
                 <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password">
                 <button [disabled]="!loginForm.valid" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
             </form>
-        </div>
     </div>
 
 </nav>

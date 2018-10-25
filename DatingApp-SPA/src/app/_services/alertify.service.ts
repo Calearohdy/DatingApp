@@ -28,5 +28,4 @@ warning(message: string) {
   alertify.warning(message);
 }
 
-
 }

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../_models/user';
-import { userInfo } from 'os';
+// import { userInfo } from 'os';
 
 @Injectable({
   providedIn: 'root' // which module is providing this service
@@ -33,15 +33,15 @@ login(model: any) {
         localStorage.setItem('token', user.token);
         localStorage.setItem('user', JSON.stringify(user.user));
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
-        this.currentUser = user.user
+        this.currentUser = user.user;
         this.changeMemberPhoto(this.currentUser.photoUrl);
       }
     })
   );
 }
 
-register(model: any) {
-  return this.http.post(this.baseURL + 'register', model);
+register(user: User) {
+  return this.http.post(this.baseURL + 'register', user);
 }
 
 loggedIn() {

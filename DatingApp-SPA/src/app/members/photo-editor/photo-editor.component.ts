@@ -12,10 +12,10 @@ import { AlertifyService } from '../../_services/alertify.service';
   styleUrls: ['./photo-editor.component.css']
 })
 export class PhotoEditorComponent implements OnInit {
-  @Input() photos: Photo[]
+  @Input() photos: Photo[];
   @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
-  hasBaseDropZoneOver:boolean = false;
+  hasBaseDropZoneOver: boolean = false;
   baseUrl = environment.apiUrl;
   currentMain: Photo;
 
@@ -25,7 +25,7 @@ export class PhotoEditorComponent implements OnInit {
     this.initializeUploader();
   }
 
-  fileOverBase(e:any): void {
+  fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
@@ -40,7 +40,7 @@ export class PhotoEditorComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024
     });
 
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; }
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
@@ -53,8 +53,13 @@ export class PhotoEditorComponent implements OnInit {
           isMain: res.isMain
         };
         this.photos.push(photo);
+        if (photo.isMain) {
+          this.authService.changeMemberPhoto(photo.url);
+          this.authService.currentUser.photoUrl = photo.url;
+          localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+        }
       }
-    }
+    };
   }
 
   setMainPhoto(photo: Photo) {
@@ -68,12 +73,12 @@ export class PhotoEditorComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     }
-  )
+  );
   }
 
   deletePhoto(id: number) {
     this.alertify.confirm('Delete this photo?', () => {
-      this.userService.deletePhoto(this.authService.decodedToken.nameid, id).subscribe(() =>{
+      this.userService.deletePhoto(this.authService.decodedToken.nameid, id).subscribe(() => {
         this.photos.splice(this.photos.findIndex(p => p.id === id), 1);
         this.alertify.success('Photo has been deleted');
       }, error => {
